@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Екзаменаційний помічник</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📚 Екзаменаційний помічник</h1>
+        <p class="subtitle">Підготовка до екзамену з комп'ютерних мереж</p>
+      </header>
+
+      <div class="progress-section">
+        <div class="progress-info">
+          <span>Прогрес:</span>
+          <span id="progress-text">0 / 131</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="get-questions-btn" class="btn btn-primary">
+          🎲 Отримати 3 випадкові питання
+        </button>
+        <button id="reset-btn" class="btn btn-secondary">
+          🔄 Скинути прогрес
+        </button>
+      </div>
+
+      <div id="questions-container" class="questions-container">
+        <div class="placeholder">
+          <p>Натисніть кнопку вище, щоб отримати питання</p>
+        </div>
+      </div>
+
+      <div id="completed-message" class="completed-message hidden">
+        <div class="celebration">🎉</div>
+        <h2>Вітаємо!</h2>
+        <p>Всі питання з файлу вже були пройдені!</p>
+        <p>Натисніть "Скинути прогрес", щоб почати спочатку.</p>
+      </div>
+
+      <div class="stats-section">
+        <h3>📊 Статистика</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="total-questions">131</div>
+            <div class="stat-label">Всього питань</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="completed-count">0</div>
+            <div class="stat-label">Пройдено</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="remaining-count">131</div>
+            <div class="stat-label">Залишилось</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
