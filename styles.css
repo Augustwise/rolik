@@ -214,6 +214,10 @@ header h1 {
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .celebration {
   font-size: 4rem;
   margin-bottom: 16px;
@@ -273,6 +277,59 @@ header h1 {
 .stat-label {
   font-size: 0.9rem;
   color: var(--text-secondary);
+}
+
+/* Completed Questions Section */
+.completed-questions-section {
+  border-top: 2px solid var(--border-color);
+  padding-top: 30px;
+  margin-top: 30px;
+}
+
+.completed-questions-section h3 {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.completed-questions-list {
+  display: grid;
+  gap: 16px;
+}
+
+.completed-question-card {
+  background: var(--background);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.completed-question-number {
+  display: inline-block;
+  background: var(--success-color);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.completed-question-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.completed-questions-empty {
+  text-align: center;
+  padding: 24px;
+  background: var(--background);
+  border-radius: 16px;
+  color: var(--text-secondary);
+  border: 1px dashed var(--border-color);
 }
 
 /* Responsive */

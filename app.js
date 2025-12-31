@@ -3,6 +3,7 @@ const STORAGE_KEY = "exam_completed_questions";
 
 // Стан додатку
 let completedQuestions = new Set();
+let completedQuestionsOrder = [];
 
 // DOM елементи
 const getQuestionsBtn = document.getElementById("get-questions-btn");
@@ -14,6 +15,10 @@ const progressFill = document.getElementById("progress-fill");
 const totalQuestionsEl = document.getElementById("total-questions");
 const completedCountEl = document.getElementById("completed-count");
 const remainingCountEl = document.getElementById("remaining-count");
+const completedQuestionsList = document.getElementById("completed-questions-list");
+const completedQuestionsEmpty = document.getElementById(
+  "completed-questions-empty"
+);
 
 // Завантаження збережених даних з LocalStorage
 function loadProgress() {
@@ -21,16 +26,28 @@ function loadProgress() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
-      completedQuestions = new Set(parsed);
+      const uniqueOrder = [];
+      const seen = new Set();
+
+      parsed.forEach((id) => {
+        if (!seen.has(id)) {
+          seen.add(id);
+          uniqueOrder.push(id);
+        }
+      });
+
+      completedQuestionsOrder = uniqueOrder;
+      completedQuestions = new Set(uniqueOrder);
     } catch (e) {
       completedQuestions = new Set();
+      completedQuestionsOrder = [];
     }
   }
 }
 
 // Збереження прогресу в LocalStorage
 function saveProgress() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedQuestions]));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(completedQuestionsOrder));
 }
 
 // Оновлення UI
@@ -58,6 +75,8 @@ function updateUI() {
     getQuestionsBtn.disabled = false;
     completedMessage.classList.add("hidden");
   }
+
+  renderCompletedQuestions();
 }
 
 // Отримання випадкових питань
@@ -83,7 +102,12 @@ function getRandomQuestions() {
   }
 
   // Додаємо вибрані питання до пройдених
-  selectedIds.forEach((id) => completedQuestions.add(id));
+  selectedIds.forEach((id) => {
+    if (!completedQuestions.has(id)) {
+      completedQuestions.add(id);
+      completedQuestionsOrder.push(id);
+    }
+  });
   saveProgress();
 
   // Відображаємо питання
@@ -106,6 +130,29 @@ function displayQuestions(questionIds) {
         `;
 
     questionsContainer.appendChild(card);
+  });
+}
+
+// Відображення пройдених питань
+function renderCompletedQuestions() {
+  completedQuestionsList.innerHTML = "";
+
+  if (completedQuestionsOrder.length === 0) {
+    completedQuestionsEmpty.classList.remove("hidden");
+    return;
+  }
+
+  completedQuestionsEmpty.classList.add("hidden");
+
+  completedQuestionsOrder.forEach((id) => {
+    const item = document.createElement("div");
+    item.className = "completed-question-card";
+    item.innerHTML = `
+        <span class="completed-question-number">Питання №${id}</span>
+        <p class="completed-question-text">${QUESTIONS[id]}</p>
+      `;
+
+    completedQuestionsList.appendChild(item);
   });
 }
 
@@ -134,6 +181,7 @@ function resetProgress() {
 
   document.getElementById("confirm-reset").addEventListener("click", () => {
     completedQuestions = new Set();
+    completedQuestionsOrder = [];
     saveProgress();
     questionsContainer.innerHTML = `
             <div class="placeholder">
